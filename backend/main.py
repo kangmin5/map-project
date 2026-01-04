@@ -11,7 +11,7 @@ from models import StoreInfo
 # [수정] 환경변수에서 DATABASE_URL을 가져오도록 변경
 # 배포 환경에서는 os.environ.get("DATABASE_URL")이 사용되고,
 # 로컬 개발 환경에서는 뒤에 적힌 "postgresql://..." 부분이 사용됩니다.
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://postgres:mkscsi31@localhost/study")
+DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://postgres:mkscsi31@localhost:5432/study")
 
 # 만약 URL이 'postgres://'로 시작하면 'postgresql://'로 바꿔줍니다. (Render/Neon 호환성 문제 해결)
 if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
