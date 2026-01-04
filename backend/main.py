@@ -22,9 +22,7 @@ engine = create_engine(DATABASE_URL)
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "http://172.30.1.66:5173",
+    "*"
 ]
 
 app.add_middleware(

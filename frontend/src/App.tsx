@@ -30,7 +30,7 @@ function App() {
   const itemRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   const loadStoreData = () => {
-    fetch("http://172.30.1.66:8000/stores/")
+    fetch("https://store-backend-woil.onrender.com/stores/")
       .then((res) => res.json())
       .then((data) => {
         setStores(data);
@@ -64,7 +64,7 @@ function App() {
         const lon = position.coords.longitude;
         setMyLoc({ lat, lon });
 
-        fetch(`http://172.30.1.66:8000/stores/nearest?lat=${lat}&lon=${lon}`)
+        fetch(`https://store-backend-woil.onrender.com?lat=${lat}&lon=${lon}`)
           .then((res) => res.json())
           .then((data: NearestResponse[]) => {
             const formattedData = data.map((item) => ({
@@ -83,7 +83,7 @@ function App() {
         const defaultLon = 127.3845;
         setMyLoc({ lat: defaultLat, lon: defaultLon });
 
-        fetch(`http://172.30.1.66:8000/stores/nearest?lat=${defaultLat}&lon=${defaultLon}`)
+        fetch(`https://store-backend-woil.onrender.com/stores/nearest?lat=${defaultLat}&lon=${defaultLon}`)
           .then((res) => res.json())
           .then((data: NearestResponse[]) => {
              const formattedData = data.map((item) => ({
