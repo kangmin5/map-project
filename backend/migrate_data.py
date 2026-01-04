@@ -32,7 +32,7 @@ def migrate():
         # if_exists='replace': 기존 테이블이 있으면 지우고 새로 만듦
         # if_exists='append': 기존 데이터 뒤에 추가함 (추천)
         # index=False: 판다스의 인덱스 숫자(0,1,2...)는 DB에 넣지 않음
-        df.to_sql(name='store', con=neon_engine, if_exists='replace', index=False)
+        df.to_sql(name='store_info', con=neon_engine, if_exists='replace', index=False)
         
         print("✅ 데이터 이전 완료! 완벽합니다.")
 

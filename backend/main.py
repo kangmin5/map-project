@@ -69,4 +69,4 @@ def get_nearest_stores(
     store_distances.sort(key=lambda x: x["distance_km"])
     
     # 4. 상위 5개만 잘라서 반환
-    return store_distances[:5]
+    return store_distances[:10]

@@ -2,7 +2,7 @@ from typing import Optional
 from sqlmodel import Field, SQLModel
 
 class StoreInfo(SQLModel, table=True):
-    __tablename__ = "store"
+    __tablename__ = "store_info"
 
     # id를 가장 윗줄에 적으세요. 그러면 JSON에서도 가장 먼저 나옵니다.
     id: Optional[int] = Field(default=None, primary_key=True) 
