@@ -1,0 +1,15 @@
+# Mac/Window 시스템 파일
+.DS_Store
+Thumbs.db
+
+# Python (Backend)
+backend/venv/
+backend/__pycache__/
+backend/.env
+*.pyc
+
+# Node.js (Frontend)
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
