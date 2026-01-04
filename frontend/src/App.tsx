@@ -30,7 +30,7 @@ function App() {
   const itemRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   const loadStoreData = () => {
-    fetch("https://store-backend-woil.onrender.com/stores/")
+    fetch("https://store-backend-woil.onrender.com/stores")
       .then((res) => res.json())
       .then((data) => {
         setStores(data);
