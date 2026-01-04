@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react"; // useRef, useCallback 추가
+import { useState, useEffect, useRef, useCallback } from "react";
 import NaverMap from "./components/NaverMap";
 
 interface Store {
@@ -23,14 +23,12 @@ function App() {
   const [mode, setMode] = useState<"all" | "nearest">("all");
   const [myLoc, setMyLoc] = useState<{lat: number, lon: number} | null>(null);
   
-  // [추가] 현재 선택된 가게 ID 상태
   const [selectedId, setSelectedId] = useState<number | null>(null);
-
-  // [추가] 리스트 아이템들의 DOM 요소(div)를 저장할 Ref
   const itemRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   const loadStoreData = () => {
-    fetch("https://store-backend-woil.onrender.com/stores")
+    // [수정 1] 끝에 슬래시(/) 추가 (CORS/Redirect 문제 방지)
+    fetch("https://store-backend-woil.onrender.com/stores/")
       .then((res) => res.json())
       .then((data) => {
         setStores(data);
@@ -46,7 +44,7 @@ function App() {
     setLoading(true);
     setMode("all");
     setMyLoc(null);
-    setSelectedId(null); // 초기화
+    setSelectedId(null);
     loadStoreData();
   };
 
@@ -56,7 +54,7 @@ function App() {
       return;
     }
     setLoading(true);
-    setSelectedId(null); // 초기화
+    setSelectedId(null);
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -64,7 +62,8 @@ function App() {
         const lon = position.coords.longitude;
         setMyLoc({ lat, lon });
 
-        fetch(`https://store-backend-woil.onrender.com?lat=${lat}&lon=${lon}`)
+        // [수정 2] 경로 누락 수정! (/stores/nearest 추가)
+        fetch(`https://store-backend-woil.onrender.com/stores/nearest?lat=${lat}&lon=${lon}`)
           .then((res) => res.json())
           .then((data: NearestResponse[]) => {
             const formattedData = data.map((item) => ({
@@ -83,6 +82,7 @@ function App() {
         const defaultLon = 127.3845;
         setMyLoc({ lat: defaultLat, lon: defaultLon });
 
+        // [수정 3] 여기도 혹시 모르니 경로 확인
         fetch(`https://store-backend-woil.onrender.com/stores/nearest?lat=${defaultLat}&lon=${defaultLon}`)
           .then((res) => res.json())
           .then((data: NearestResponse[]) => {
@@ -103,12 +103,11 @@ function App() {
     loadStoreData();
   }, []);
 
-  // [추가] selectedId가 바뀌면 해당 요소로 스크롤 이동
   useEffect(() => {
     if (selectedId && itemRefs.current[selectedId]) {
       itemRefs.current[selectedId]?.scrollIntoView({
-        behavior: "smooth", // 부드럽게 스크롤
-        block: "center",    // 화면 중앙에 오도록
+        behavior: "smooth",
+        block: "center",
       });
     }
   }, [selectedId]);
@@ -143,7 +142,6 @@ function App() {
           </button>
         </div>
 
-        {/* [수정] onMarkerClick 전달 */}
         <NaverMap 
           stores={stores} 
           myLat={myLoc?.lat || null} 
@@ -160,16 +158,11 @@ function App() {
           {stores.map((store) => (
             <div
               key={store.id}
-              // [추가] 각 카드의 DOM을 ref에 저장
               ref={(el) => { itemRefs.current[store.id] = el; }}
-              
-              // [수정] 클릭 시에도 선택 상태 변경
               onClick={() => setSelectedId(store.id)}
-
-              // [수정] 선택된 항목은 테두리를 굵고 파랗게(ring) 표시
               className={`p-6 rounded-lg shadow-md border cursor-pointer transition-all ${
                 selectedId === store.id 
-                  ? "ring-4 ring-blue-400 bg-blue-50 border-blue-500 scale-105" // 선택됐을 때 스타일
+                  ? "ring-4 ring-blue-400 bg-blue-50 border-blue-500 scale-105"
                   : store.distance_km 
                     ? "border-green-200 bg-green-50 hover:bg-green-100" 
                     : "border-gray-200 bg-white hover:bg-gray-100"
