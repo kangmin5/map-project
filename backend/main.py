@@ -1,26 +1,15 @@
 import os
-from fastapi import FastAPI, Depends, Query
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from sqlmodel import select, Session
 from typing import List
 import math
 
-from database import get_session,engine
+# ★ 중요: database.py에서 engine과 get_session을 가져옵니다.
+from database import get_session, engine 
 from models import StoreInfo
 
-# 1. 환경 변수 가져오기
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://postgres:mkscsi31@localhost/study")
 
-# [디버깅용 로그 추가] -> 배포 후 로그 탭에서 이 줄을 찾아보세요!
-print(f"==================================================")
-print(f"현재 인식된 DB 주소: {DATABASE_URL}")
-print(f"==================================================")
-
-# 2. 주소 보정 (postgres:// -> postgresql://)
-if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-
-engine = create_engine(DATABASE_URL)
 
 app = FastAPI()
 
