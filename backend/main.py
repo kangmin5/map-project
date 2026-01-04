@@ -5,7 +5,7 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 from typing import List
 import math
 
-from database import get_session
+from database import get_session,engine
 from models import StoreInfo
 
 # 1. 환경 변수 가져오기
