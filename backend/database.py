@@ -13,7 +13,7 @@ if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
 # 3. 엔진 생성
 engine = create_engine(DATABASE_URL)
 
-# 4. 세션 생성 함수
+# 4. 세션 생성 함수 정의
 def get_session():
     with Session(engine) as session:
         yield session
