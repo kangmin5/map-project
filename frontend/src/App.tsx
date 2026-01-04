@@ -138,7 +138,7 @@ function App() {
               mode === "nearest" ? "bg-green-600 text-white" : "bg-white text-green-600 border border-green-600"
             }`}
           >
-            📍 내 주변 5곳 + 지도
+            📍 내 주변 10곳 + 지도
           </button>
         </div>
 
